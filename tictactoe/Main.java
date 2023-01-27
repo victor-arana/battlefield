@@ -33,14 +33,17 @@ class Grid {
     }
 
     void print() {
+        System.out.println("---------");
         for(int i = 0; i < grid.length; i++) {
+            System.out.print("| ");
             for(int j = 0; j < grid[i].length; j++) { 
                String character =grid[i][j] == 0 ? "O" :
                                     grid[i][j] == 1 ? "X" :
                                         "-"; 
                System.out.print(character + " ");
            }
-           System.out.println();
+           System.out.printf("| %n");
         } 
+        System.out.println("---------");
     }
 }
