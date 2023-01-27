@@ -2,17 +2,19 @@ package tictactoe;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         var grid = new Grid();
         grid.autoFill();
+        grid.readState();
         grid.print();    
     }
 }
 
 class Grid {
-    int[][] grid;
+    Integer[][] grid;
 
     Grid(){
         this(3,3);
@@ -20,7 +22,23 @@ class Grid {
     
     Grid(int rows, int columns) {
         if (rows <= 0 && columns <= 0) throw new IllegalArgumentException();
-        grid = new int[rows][columns];
+        grid = new Integer[rows][columns];
+    }
+    
+    void readState() {
+        Scanner scanner = new Scanner(System.in);
+        String state = scanner.nextLine();
+        grid = parseState(state);
+    }
+    
+    Integer[][] parseState(String state) {
+        String firstRow = state.substring(0,3);
+        System.out.println(firstRow);
+        String secondRow = state.substring(3,6);
+        System.out.println(secondRow);
+        String thirdRow = state.substring(6,9);
+        System.out.println(thirdRow);
+        return grid;
     }
 
     void autoFill() {
