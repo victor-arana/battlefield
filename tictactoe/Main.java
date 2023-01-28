@@ -30,15 +30,47 @@ class Grid {
         String state = scanner.nextLine();
         grid = parseState(state);
     }
+
+    Character[][] unflatMatrix(int m, int n, char[] a){
+        Character[][] output = new Character[m][n];
+        
+        int k = 0; 
+        int i = 0;
+        while (i < m) {
+            int j = 0;
+            while (j < n) {
+                output[i][j] = a[k]; 
+                k++;
+                j++;       
+            }
+            i++;
+        }
+        return output;        
+    }
+
     
     Integer[][] parseState(String state) {
-        String firstRow = state.substring(0,3);
-        System.out.println(firstRow);
-        String secondRow = state.substring(3,6);
-        System.out.println(secondRow);
-        String thirdRow = state.substring(6,9);
-        System.out.println(thirdRow);
-        return grid;
+        Character[][] stateMatrix  = unflatMatrix(3, 3, state.toCharArray());
+        System.out.println("state: " + state);
+        System.out.println("state matrix: " + Arrays.deepToString(stateMatrix)); 
+        return parseStateMatrix(stateMatrix);
+    }
+
+    Integer[][] parseStateMatrix(Character[][] stateMatrix) {
+        int m = stateMatrix.length;
+        int n = stateMatrix[0].length;
+
+        Integer[][] result = new Integer[m][n];
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n;j++) {
+                result[i][j] = parseSlot(stateMatrix[i][j]);                 
+            }
+        }
+    }
+
+    Integer parseSlot(Character c) {
+        Integer result = 1;
+        return result;
     }
 
     void autoFill() {
