@@ -68,7 +68,7 @@ class Grid {
     Integer parseSlot(Character character) {
         Integer value = 0;
         switch (character) {
-            case '0':
+            case 'O':
                 value = 0;
                 break; 
             case 'X':
@@ -99,7 +99,7 @@ class Grid {
                if (grid[i][j] == null) {
                     character = "_";
                 } else if ((int) grid[i][j] == 0) {
-                    character = "0";
+                    character = "O";
                 } else if ((int) grid[i][j] == 1) {
                     character = "X";
                 } else {
