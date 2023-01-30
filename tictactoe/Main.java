@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         var grid = new Grid();
         grid.readState();
+        grid.analizeState();
         grid.print();    
     }
 }
@@ -22,6 +23,19 @@ class Grid {
     Grid(int rows, int columns) {
         if (rows <= 0 && columns <= 0) throw new IllegalArgumentException();
         grid = new Integer[rows][columns];
+    }
+
+    void analizeState() {
+        boolean xWins = false;
+        for (int i = 0; i < grid.length; i++) {
+            int sum = 0;
+            for(int j = 0; j < grid[i].length; j++) {
+                sum += grid[i][j] != null ?  grid[i][j] : 0;     
+            }
+            xWins = sum == 3;
+            if (xWins) break;
+        }
+        System.out.println("X wins: " + xWins);
     }
     
     void readState() {
