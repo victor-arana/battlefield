@@ -7,7 +7,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         var grid = new Grid();
-        grid.autoFill();
         grid.readState();
         grid.print();    
     }
@@ -33,7 +32,6 @@ class Grid {
 
     Character[][] unflatMatrix(int m, int n, char[] a){
         Character[][] output = new Character[m][n];
-        
         int k = 0; 
         int i = 0;
         while (i < m) {
@@ -51,8 +49,6 @@ class Grid {
     
     Integer[][] parseState(String state) {
         Character[][] stateMatrix  = unflatMatrix(3, 3, state.toCharArray());
-        System.out.println("state: " + state);
-        System.out.println("state matrix: " + Arrays.deepToString(stateMatrix)); 
         return parseStateMatrix(stateMatrix);
     }
 
@@ -66,11 +62,23 @@ class Grid {
                 result[i][j] = parseSlot(stateMatrix[i][j]);                 
             }
         }
+        return result;
     }
 
-    Integer parseSlot(Character c) {
-        Integer result = 1;
-        return result;
+    Integer parseSlot(Character character) {
+        Integer value = 0;
+        switch (character) {
+            case '0':
+                value = 0;
+                break; 
+            case 'X':
+                value = 1;
+                break;
+            case '_':
+            default:
+                value = null;
+        }
+        return value;
     }
 
     void autoFill() {
@@ -86,11 +94,18 @@ class Grid {
         System.out.println("---------");
         for(int i = 0; i < grid.length; i++) {
             System.out.print("| ");
-            for(int j = 0; j < grid[i].length; j++) { 
-               String character =grid[i][j] == 0 ? "O" :
-                                    grid[i][j] == 1 ? "X" :
-                                        "-"; 
-               System.out.print(character + " ");
+            for(int j = 0; j < grid[i].length; j++) {
+               String character = null;
+               if (grid[i][j] == null) {
+                    character = "_";
+                } else if ((int) grid[i][j] == 0) {
+                    character = "0";
+                } else if ((int) grid[i][j] == 1) {
+                    character = "X";
+                } else {
+                    character = "_";
+                }
+                System.out.print(character + " ");
            }
            System.out.printf("| %n");
         } 
