@@ -26,16 +26,39 @@ class Grid {
     }
 
     void analizeState() {
-        boolean xWins = false;
+        boolean xWinsByRow = false;
+        boolean oWinsByRow = false;
+        // Test rows
         for (int i = 0; i < grid.length; i++) {
-            int sum = 0;
-            for(int j = 0; j < grid[i].length; j++) {
-                sum += grid[i][j] != null ?  grid[i][j] : 0;     
-            }
-            xWins = sum == 3;
-            if (xWins) break;
+            xWinsByRow = testRow(i, 1, grid);
+            oWinsByRow = testRow(i, 0, grid);
+            if (xWinsByRow || oWinsByRow) break;
         }
-        System.out.println("X wins: " + xWins);
+
+        // Test columns
+        boolean xWinsByColumn = false;
+        boolean oWinsByColumn = false;
+        for (int j = 0; j < grid[0].length; j++) {
+            xWinsByColumn = testColumn(j, 1, grid);
+            oWinsByColumn  = testColumn(j, 0, grid);
+            if (xWinsByColumn || oWinsByColumn) break;
+        }
+        System.out.println(
+            "X wins by row: " + xWinsByRow + "   X wins by col: " + xWinsByColumn);
+        System.out.println(
+            "O winsby col: " + oWinsByRow + "   O wins by col: " + oWinsByColumn);
+    }
+
+    boolean testColumn(int c, Integer i, Integer[][] a) {
+        boolean isFull = a[0][c] != null && a[1][c] != null && a[2][c] != null;
+        return isFull 
+            && (a[0][c].equals(i) && a[1][c].equals(i) && a[2][c].equals(i));
+    }
+
+    boolean testRow(int row, Integer i, Integer[][] a) {
+        boolean rowIsFull = a[row][0] != null && a[row][1] != null && a[row][2] != null;
+        return rowIsFull 
+            && (a[row][0].equals(i) && a[row][1].equals(i) && a[row][2].equals(i));
     }
     
     void readState() {
