@@ -26,9 +26,13 @@ class Grid {
     }
 
     void analizeState() {
+        // Test diagonals
+        boolean xWinsByDiagonal = testDiagonal(1,grid);
+        boolean oWinsByDiagonal = testDiagonal(0,grid);
+
+        // Test rows
         boolean xWinsByRow = false;
         boolean oWinsByRow = false;
-        // Test rows
         for (int i = 0; i < grid.length; i++) {
             xWinsByRow = testRow(i, 1, grid);
             oWinsByRow = testRow(i, 0, grid);
@@ -43,10 +47,41 @@ class Grid {
             oWinsByColumn  = testColumn(j, 0, grid);
             if (xWinsByColumn || oWinsByColumn) break;
         }
-        System.out.println(
-            "X wins by row: " + xWinsByRow + "   X wins by col: " + xWinsByColumn);
-        System.out.println(
-            "O winsby col: " + oWinsByRow + "   O wins by col: " + oWinsByColumn);
+
+        boolean xWins = xWinsByDiagonal || xWinsByRow || xWinsByColumn;
+        boolean oWins = oWinsByDiagonal || oWinsByRow || oWinsByColumn;
+        boolean gameIsNotFinished = !xWins && !oWins && gridHasEmptyCells(grid);
+        boolean draw = !xWins && !oWins && !gridHasEmptyCells(grid);
+
+        System.out.println("X wins: " + xWins);
+        System.out.println("O wins: " + oWins);
+        System.out.println("Game not finished: " + gameIsNotFinished);
+        System.out.println("Draw: " + draw);
+    }
+    
+    boolean gridHasEmptyCells(Integer[][] grid){
+        boolean gridHasEmptyCells = false;
+        for (Integer[] row: grid) {
+            for(Integer cell: row){
+                if(cell == null) {
+                    gridHasEmptyCells = true;
+                    break;
+                }
+            }
+        }
+        return gridHasEmptyCells;
+    }
+    
+    boolean testDiagonal(Integer i, Integer[][] a) {
+       boolean backSlashIsFull  = a[0][0] != null && a[1][1] != null && a[2][2] != null;
+       boolean backSlashWins = backSlashIsFull 
+                && (a[0][0].equals(i) && a[0][0].equals(a[1][1]) && a[0][0].equals(a[2][2]));
+
+        boolean forwardSlashIsFull  = a[0][2] != null && a[1][1] != null && a[1][1] != null;
+        boolean forwardSlashWins = forwardSlashIsFull
+                && (a[0][2].equals(i) && a[0][2].equals(a[1][1]) && a[0][2].equals(a[1][1]));
+        return backSlashWins || forwardSlashWins;
+       
     }
 
     boolean testColumn(int c, Integer i, Integer[][] a) {
